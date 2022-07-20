@@ -33,7 +33,8 @@ function Canvas({canvasRef}: Props) {
 
         if (context) {
 
-            context.strokeStyle = 'rgba(250, 234, 72)';
+            context.strokeStyle = 'rgb(250, 234, 72)';
+            // context.strokeStyle = 'rgb(0, 0, 0)';
             context.lineJoin = 'round';
             context.lineWidth = 24;
 
@@ -99,7 +100,7 @@ function Canvas({canvasRef}: Props) {
     return (
         <canvas 
             ref={canvasRef}
-            className='z-50 opacity-30 hover:cursor-pointer'
+            className='z-50 opacity-50 hover:cursor-pointer'
             width={256}
             height={256}
         ></canvas>
