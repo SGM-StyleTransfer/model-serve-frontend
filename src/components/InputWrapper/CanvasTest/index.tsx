@@ -59,7 +59,7 @@ function CanvasTest () {
     }
 
     return (
-        <div>
+        <div className='flex flex-col items-center' >
             <h1 className='text-3xl mb-4' >Canvas Test</h1>
 
             <div className='relative' style={{width: 256, height: 256}} >
@@ -73,8 +73,10 @@ function CanvasTest () {
                 ></canvas>
             </div>
 
-            <button onClick={clearCanvas} >Clear</button>
-            <button onClick={saveImage} >Save</button>
+            <div>
+                <button onClick={clearCanvas} >Clear</button>
+                <button onClick={saveImage} >Save</button>
+            </div>
             
             <ImageUploadButton 
                 imageURL={imageURL} 
