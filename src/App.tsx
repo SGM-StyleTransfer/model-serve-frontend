@@ -1,8 +1,8 @@
 import React from 'react';
-import VideoUploader from './components/VideoUploader';
-import CanvasTest from './components/CanvasTest';
-import RightArrow from './images/arrow.png';
-import Plus from './images/plus.jpg';
+import VideoUploader from '@components/VideoUploader';
+import CanvasTest from '@components/CanvasTest';
+import RightArrow from '@images/arrow.png';
+import Plus from '@images/plus.jpg';
 
 function App() {
   return (
