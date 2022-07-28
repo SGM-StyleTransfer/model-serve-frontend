@@ -3,7 +3,9 @@
         "baseUrl": "./src",
         "paths": {
             "@components/*": ["./components/*"],
-            "@images/*": ["./images/*"]
+            "@images/*": ["./images/*"],
+
+            "@images": ["./images/index.ts"]
         }
     }
 }
