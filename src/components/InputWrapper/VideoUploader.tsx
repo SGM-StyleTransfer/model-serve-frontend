@@ -1,19 +1,14 @@
-import React from "react";
+import React, { ChangeEventHandler, MouseEventHandler, useRef, useState } from "react";
 
-type Props = {
-    width: number;
-    height: number;
-}
+export default function VideoInput() {
 
-export default function VideoInput(props: Props) {
-  const { width, height } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [source, setSource] = useState<string>();
 
-  const inputRef = React.useRef<HTMLInputElement>();
+  const handleFileChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (!event.target.files) { return; }
 
-  const [source, setSource] = React.useState<string>();
-
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]  
     const url = URL.createObjectURL(file);
     if (source) {
       URL.revokeObjectURL(source)
@@ -21,30 +16,46 @@ export default function VideoInput(props: Props) {
     setSource(url);
   };
 
-  const handleChoose = (event: any) => {
+  const handleChoose: 
+    MouseEventHandler<HTMLButtonElement | HTMLDivElement> 
+  = (event) => {
     inputRef.current?.click();
   };
 
+  const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
+    setSource('');
+  }
+
   return (
-    <div className="VideoInput">
+    <div>
       <input
-        ref={inputRef && null}
-        className="VideoInput_input"
+        ref={inputRef}
+        className="hidden"
         type="file"
         onChange={handleFileChange}
         accept=".mov,.mp4"
       />
-      {!source && <button onClick={handleChoose}>Choose</button>}
-      {source && (
+      {source ? 
+        // Video Component
         <video
-          className="VideoInput_video"
-          width={width}
-          height={height}
+          className="mb-4 w-64 h-64"
           controls
           src={source}
-        />
-      )}
-      <div className="VideoInput_footer">{source || "Nothing selectd"}</div>
+        /> :
+        // Video doesn't exist
+        <div 
+          onClick={handleChoose}
+          className="w-64 h-64 bg-slate-50 flex items-center justify-center mb-4 cursor-pointer"
+        >
+          Video Not Selected
+        </div>
+      }
+
+      {/* Button Container */}
+      <div className="flex justify-around" >
+        <button onClick={handleChoose}>Choose</button>
+        <button onClick={handleDelete} >Delete</button>
+      </div>
     </div>
   );
 }
