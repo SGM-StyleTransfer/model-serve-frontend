@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { saveAs } from 'file-saver';
-import ImageUploadButton from './ImageUploadButton';
 import CanvasLayer from './CanvasLayer';
 import ImageBackgroundLayer from './ImageBackgrondLayer';
 
 
 function CanvasTest () {
+    // eslint-disable-next-line
     const [imageURL, setImageURL] = useState<string>('');
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const fakeCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -59,10 +59,9 @@ function CanvasTest () {
     }
 
     return (
-        <div className='flex flex-col items-center' >
-            <h1 className='text-3xl mb-4' >Canvas Test</h1>
+        <div className='flex flex-col' >
 
-            <div className='relative' style={{width: 256, height: 256}} >
+            <div className='relative mb-4' style={{width: 256, height: 256}} >
                 <ImageBackgroundLayer imageURL={imageURL} />
                 <CanvasLayer canvasRef={canvasRef} />
                 <canvas 
@@ -73,15 +72,10 @@ function CanvasTest () {
                 ></canvas>
             </div>
 
-            <div>
+            <div className='flex justify-around' >
                 <button onClick={clearCanvas} >Clear</button>
                 <button onClick={saveImage} >Save</button>
             </div>
-            
-            <ImageUploadButton 
-                imageURL={imageURL} 
-                setImageURL={setImageURL} 
-            />
         </div>
     );
 }
