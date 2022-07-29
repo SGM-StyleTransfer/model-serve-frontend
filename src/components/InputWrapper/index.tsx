@@ -14,7 +14,7 @@ function InputWrapper() {
                     Video Uploader
                 </InputTitle>
 
-                <VideoUploader width={400} height={300} />
+                <VideoUploader />
             </InputContainer>
         
             {/* Arrow Icon */}
