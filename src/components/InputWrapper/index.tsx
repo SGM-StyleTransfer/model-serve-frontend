@@ -3,6 +3,7 @@ import CanvasTest from './CanvasTest';
 import VideoUploader from './VideoUploader';
 import { InputContainer, InputTitle } from '@components/commons';
 import { RightArrow, Plus } from '@images'
+import ReferImage from './ReferImage';
 
 function InputWrapper() {
     return (
@@ -10,10 +11,7 @@ function InputWrapper() {
         
             {/* Video Uploader */}
             <InputContainer >
-                <InputTitle>
-                    Video Uploader
-                </InputTitle>
-
+                <InputTitle> Video Uploader </InputTitle>
                 <VideoUploader />
             </InputContainer>
         
@@ -23,15 +21,11 @@ function InputWrapper() {
                 className='w-16 h-16'  
             />
 
-            {/* Face Detector */}
+            {/* Key Frame */}
             <InputContainer >
-                <InputTitle>
-                    Face Detector
-                </InputTitle>
+                <InputTitle> Key Frame </InputTitle>
 
-                <div className='w-64 h-64 bg-slate-50' >
-
-                </div>
+                <CanvasTest />
             </InputContainer>
 
             {/* Arrow Icon */}
@@ -42,7 +36,8 @@ function InputWrapper() {
 
             {/* Reference Image */}
             <InputContainer >
-                <CanvasTest />
+                <InputTitle> Reference Image </InputTitle>
+                <ReferImage />
             </InputContainer>
         </div>
     )
