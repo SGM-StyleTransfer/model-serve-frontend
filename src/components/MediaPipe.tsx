@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import Webcam from 'react-webcam';
 import fm, { FaceMesh } from '@mediapipe/face_mesh';
 import { Camera } from '@mediapipe/camera_utils';
 import { drawConnectors } from '@mediapipe/drawing_utils';
-import { InputTitle } from './commons';
+import { InputTitle, PageWrapper } from './commons';
 
 function MediaPipe() {
 
@@ -82,26 +83,24 @@ function MediaPipe() {
     }, []);
 
     return (
-        <div>
+        <PageWrapper>
             <InputTitle> Google Mediapipe Test </InputTitle>
 
-            <Webcam 
-                ref={webcamRef}
-                className='absolute mt-8 mx-auto left-0 right-0 text-center z-10 hidden'
-                style={{
-                    width: videoWidth,
-                    height: videoHeight,
-                }}
-            />
-            <canvas
-                ref={canvasRef}
-                className='absolute mt-8 mx-auto left-0 right-0 text-center z-10 bg-slate-400'
-                style={{
-                    width: videoWidth,
-                    height: videoHeight,
-                }}
-            />
-        </div>
+            {/* Media pipe container */}
+            <div className='my-8 w-full' style={{height: videoHeight}} >
+                <Webcam ref={webcamRef} className='hidden' />
+                <canvas
+                    ref={canvasRef}
+                    className='absolute mx-auto left-0 right-0 text-center z-10 bg-slate-400'
+                    style={{
+                        width: videoWidth,
+                        height: videoHeight,
+                    }}
+                />
+            </div>
+
+            <Link to='/' > Back to Home </Link>
+        </PageWrapper>
     )
 }
 
