@@ -16,7 +16,7 @@ function HomePage() {
             <InputWrapper />
 
             {/* Output Container */}
-            <div className='w-full max-w-3xl'>
+            <div className='w-full max-w-3xl hidden'>
                 <h3 className='text-4xl my-4'>
                     Output Video
                 </h3>

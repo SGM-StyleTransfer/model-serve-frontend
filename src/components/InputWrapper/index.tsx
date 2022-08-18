@@ -1,9 +1,9 @@
 import React from 'react';
 import CanvasTest from './CanvasTest';
-import VideoUploader from './VideoUploader';
 import { InputContainer, InputTitle } from '@components/commons';
 import { RightArrow, Plus } from '@images'
 import ReferImage from './ReferImage';
+import VideoInput from './VideoInput';
 
 function InputWrapper() {
     return (
@@ -12,7 +12,7 @@ function InputWrapper() {
             {/* Video Uploader */}
             <InputContainer >
                 <InputTitle> Video Uploader </InputTitle>
-                <VideoUploader />
+                <VideoInput />
             </InputContainer>
         
             {/* Arrow Icon */}
