@@ -18,6 +18,10 @@ export function useMedia() {
         (imageUrls: string[]) => { dispatch(mediaActions.setImageUrls(imageUrls)) }, 
         [dispatch],
     );
+    const addImageUrl = useCallback(
+        (imageUrl: string) => { dispatch(mediaActions.addImageUrl(imageUrl)) }, 
+        [dispatch],
+    );
     const setSelectedImageIdx = useCallback(
         (idx: number) => { dispatch(mediaActions.setSelectedImageIdx(idx)) }, 
         [dispatch],
@@ -30,6 +34,7 @@ export function useMedia() {
 
         setVideoUrl,
         setImageUrls,
+        addImageUrl,
         setSelectedImageIdx,
     }
 }

@@ -19,8 +19,11 @@ export const media = createSlice({
         setVideoUrl: (state, action: PayloadAction<string>) => {
             return {...state, videoUrl: action.payload};
         },
-        setImageUrls: (state, action: PayloadAction<string[]> ) => {
+        setImageUrls: (state, action: PayloadAction<string[]>) => {
             return {...state, imageUrls: action.payload};
+        },
+        addImageUrl: (state, action: PayloadAction<string>) => {
+            return {...state, imageUrls: [...state.imageUrls, action.payload]}
         },
         setSelectedImageIdx: (state, action: PayloadAction<number>) => {
             return {...state, selectedImageIdx: action.payload};

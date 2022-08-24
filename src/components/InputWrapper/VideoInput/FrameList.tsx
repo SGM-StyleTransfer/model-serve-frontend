@@ -1,21 +1,20 @@
 import React from 'react';
 
 type Props = {
-    frames: string[]
+    imageUrls: string[]
 }
 
-function FrameList ({ frames }: Props) {
-    // console.log(frames)
+function FrameList ({ imageUrls }: Props) {
     return (
         <div className='flex' >
             {
-                frames.map((frame, idx) => {
+                imageUrls.map((imageUrl, idx) => {
                     return (
                         <div 
                             key={idx}
                             className='bg-center bg-cover w-10 h-10 mx-1'
                             style={{
-                                backgroundImage: `url(${frame})`
+                                backgroundImage: `url(${imageUrl})`
                             }}
                         />
                     )
