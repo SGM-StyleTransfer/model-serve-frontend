@@ -4,6 +4,8 @@
         "paths": {
             "@components/*": ["./components/*"],
             "@images/*": ["./images/*"],
+            "@modules/*": ["./modules/*"],
+            "@hooks/*": ["./hooks/*"],
 
             "@images": ["./images/index.ts"]
         }
