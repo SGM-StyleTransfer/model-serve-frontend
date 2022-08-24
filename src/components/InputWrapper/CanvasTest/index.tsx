@@ -5,8 +5,6 @@ import ImageBackgroundLayer from './ImageBackgrondLayer';
 
 
 function CanvasTest () {
-    // eslint-disable-next-line
-    const [imageURL, setImageURL] = useState<string>('');
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const fakeCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -62,7 +60,7 @@ function CanvasTest () {
         <div className='flex flex-col' >
 
             <div className='relative mb-4' style={{width: 256, height: 256}} >
-                <ImageBackgroundLayer imageURL={imageURL} />
+                <ImageBackgroundLayer />
                 <CanvasLayer canvasRef={canvasRef} />
                 <canvas 
                     className='absolute -z-10 top-0 left-0'

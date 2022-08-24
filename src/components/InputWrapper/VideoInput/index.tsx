@@ -22,6 +22,7 @@ function VideoInput() {
     const {
         videoUrl, setVideoUrl,
         imageUrls, setImageUrls, addImageUrl,
+        selectImageIdx,
     } = useMedia();
 
     let seeking: boolean = false;
@@ -37,6 +38,7 @@ function VideoInput() {
             setImageUrls([]);
         }
         setVideoUrl(url);
+        selectImageIdx(0);
     };
 
     const handleChoose: 
@@ -48,6 +50,7 @@ function VideoInput() {
     const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
         setVideoUrl('');
         setImageUrls([]);
+        selectImageIdx(-1);
     }
 
     const captureFrames = async () => {
@@ -81,7 +84,7 @@ function VideoInput() {
                     // 2. video 컴포넌트가 실제로 currentTime으로 이동하는 시간을 기다리기 
                     // (seeked event 기다리기)
                     // 우선은 setTimeout으로 대체했지만, 이 부분은 수정 필요
-                    await wait(30);
+                    await wait(50);
 
                     // 3. 이동한 포인트의 비디오 프레임을 canvas에 그리기
                     ctx.drawImage( video, 0, 0, canvas.width, canvas.height );

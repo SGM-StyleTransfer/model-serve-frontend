@@ -3,13 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type MediaState = {
     videoUrl: string;
     imageUrls: string[];
-    selectedImageIdx?: number;
+    selectedImageIdx: number;
 };
 
 const initialSate: MediaState = {
     videoUrl: '',
     imageUrls: [],
-    selectedImageIdx: 0,
+    selectedImageIdx: -1,
 };
 
 export const media = createSlice({
@@ -25,7 +25,7 @@ export const media = createSlice({
         addImageUrl: (state, action: PayloadAction<string>) => {
             return {...state, imageUrls: [...state.imageUrls, action.payload]}
         },
-        setSelectedImageIdx: (state, action: PayloadAction<number>) => {
+        selectImageIdx: (state, action: PayloadAction<number>) => {
             return {...state, selectedImageIdx: action.payload};
         },
     },
