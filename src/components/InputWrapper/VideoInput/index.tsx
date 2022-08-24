@@ -26,7 +26,7 @@ function VideoInput() {
     } = useMedia();
 
     let seeking: boolean = false;
-    const containerSize: BoxSize = {w: 40, h: 30}
+    const containerSize: BoxSize = {w: 400, h: 300}
 
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = (event) => {
         if (!event.target.files) { return; }
