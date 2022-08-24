@@ -122,10 +122,13 @@ function VideoInput() {
             />
             
             {/* Video component */}
-            <div className={`flex flex-col items-center ${!videoUrl && 'hidden'}`}>
+            <div className={`
+                ${!videoUrl && 'hidden'}
+                w-64 h-64 flex flex-col items-center mb-4
+            `}>
                 <video
                     ref={videoRef}
-                    className={`mb-4 w-64 h-64 `}
+                    className={`mb-4 w-64 h-48`}
                     controls
                     src={videoUrl}
                 /> 
