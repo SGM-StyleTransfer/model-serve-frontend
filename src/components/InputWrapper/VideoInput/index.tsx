@@ -2,10 +2,10 @@ import React, {
     ChangeEventHandler, 
     MouseEventHandler, 
     useEffect, 
-    useRef, 
-    useState,
+    useRef,
 } from "react";
 import FrameList from "./FrameList";
+import { useMedia } from "@hooks/useMedia";
 
 type BoxSize = {
     w: number;
@@ -19,8 +19,10 @@ function VideoInput() {
     const inputRef = useRef<HTMLInputElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [videoSource, setVideoSource] = useState<string>('');
-    const [frames, setFrames] = useState<string[]>([]);
+    const {
+        videoUrl, setVideoUrl,
+        imageUrls, setImageUrls, addImageUrl,
+    } = useMedia();
 
     let seeking: boolean = false;
     const containerSize: BoxSize = {w: 40, h: 30}
@@ -30,11 +32,11 @@ function VideoInput() {
 
         const file = event.target.files[0]  
         const url = URL.createObjectURL(file);
-        if (videoSource) {
-            URL.revokeObjectURL(videoSource)
-            setFrames([]);
+        if (videoUrl) {
+            URL.revokeObjectURL(videoUrl)
+            setImageUrls([]);
         }
-        setVideoSource(url);
+        setVideoUrl(url);
     };
 
     const handleChoose: 
@@ -44,8 +46,8 @@ function VideoInput() {
     };
 
     const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
-        setVideoSource('');
-        setFrames([]);
+        setVideoUrl('');
+        setImageUrls([]);
     }
 
     const captureFrames = async () => {
@@ -84,7 +86,7 @@ function VideoInput() {
                     // 3. 이동한 포인트의 비디오 프레임을 canvas에 그리기
                     ctx.drawImage( video, 0, 0, canvas.width, canvas.height );
                     let base64ImageData = canvas.toDataURL()
-                    setFrames( (frames) => [...frames, base64ImageData] )
+                    addImageUrl(base64ImageData);
 
                     // 4. 다음 interval의 재생시간을 변수에 저장
                     cur_time += interval;
@@ -117,16 +119,16 @@ function VideoInput() {
             />
             
             {/* Video component */}
-            <div className={`flex flex-col items-center ${!videoSource && 'hidden'}`}>
+            <div className={`flex flex-col items-center ${!videoUrl && 'hidden'}`}>
                 <video
                     ref={videoRef}
                     className={`mb-4 w-64 h-64 `}
                     controls
-                    src={videoSource}
+                    src={videoUrl}
                 /> 
-                <FrameList frames={frames} />
+                <FrameList imageUrls={imageUrls} />
             </div>
-            {!videoSource &&
+            {!videoUrl &&
                 // Video가 없을 때, 비디오가 선택되지 않았음을 알려주는 박스
                 <div 
                     onClick={handleChoose}
