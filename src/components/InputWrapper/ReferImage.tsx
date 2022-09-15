@@ -1,18 +1,22 @@
-import React, { ChangeEventHandler, MouseEventHandler, useRef, useState } from 'react';
+import { useMedia } from '@hooks/useMedia';
+import React, { ChangeEventHandler, MouseEventHandler, useRef } from 'react';
 
 function ReferImage() {
-    const [imageURL, setImageURL] = useState<string>('');
     const inputRef = useRef<HTMLInputElement>(null);
+    const { refImgUrl, setRefImg } = useMedia();
 
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = (event) => {
         if (!event.target.files) {return}
         
         const file = event.target.files[0];
         const url = URL.createObjectURL(file);
-        if (imageURL) {
-            URL.revokeObjectURL(imageURL)
+        if (refImgUrl) {
+            URL.revokeObjectURL(refImgUrl)
         }
-        setImageURL(url);
+        setRefImg({
+            refImgUrl: url,
+            refImgFile: file,
+        });
     };
 
     const handleChoose: MouseEventHandler<HTMLButtonElement | HTMLDivElement> = (event) => {
@@ -20,8 +24,11 @@ function ReferImage() {
     }
 
     const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
-        URL.revokeObjectURL(imageURL);
-        setImageURL('');
+        URL.revokeObjectURL(refImgUrl);
+        setRefImg({
+            refImgUrl: '',
+            refImgFile: null,
+        });
     }
 
     return (
@@ -34,10 +41,10 @@ function ReferImage() {
                 className='hidden'
             />
 
-            { imageURL?
+            { refImgUrl?
                 <div 
                     className='w-64 h-64 mb-4 bg-cover bg-center'
-                    style={{backgroundImage: `url('${imageURL}')`}}
+                    style={{backgroundImage: `url('${refImgUrl}')`}}
                 /> :
                 
                 // No Image

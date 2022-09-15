@@ -1,40 +1,60 @@
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { RootState } from "@modules/index"
-import { mediaActions } from "@modules/media";
+import { mediaActions, MediaState } from "@modules/media";
 
 
 export function useMedia() {
     const videoUrl = useSelector((state: RootState) => state.media.videoUrl);
-    const imageUrls = useSelector((state: RootState) => state.media.imageUrls);
-    const selectedImageIdx = useSelector((state: RootState) => state.media.selectedImageIdx);
+    const videoFile = useSelector((state: RootState) => state.media.videoFile);
+    const frameUrls = useSelector((state: RootState) => state.media.frameUrls);
+    const keyFrameIdx = useSelector((state: RootState) => state.media.keyFrameIdx);
+    const refImgUrl = useSelector((state: RootState) => state.media.refImgUrl);
+    const refImgFile = useSelector((state: RootState) => state.media.refImgFile);
+    const maskImgUrl = useSelector((state: RootState) => state.media.maskImgUrl);
+    const maskImgFile = useSelector((state: RootState) => state.media.maskImgFile);
 
     const dispatch = useDispatch();
-    const setVideoUrl = useCallback(
-        (videoUrl: string) => { dispatch(mediaActions.setVideoUrl(videoUrl)) }, 
+    const setVideo = useCallback(
+        (video: Pick<MediaState, 'videoUrl' | 'videoFile'> ) => { dispatch(mediaActions.setVideo(video)) }, 
         [dispatch],
     );
-    const setImageUrls = useCallback(
-        (imageUrls: string[]) => { dispatch(mediaActions.setImageUrls(imageUrls)) }, 
+    const setFrameUrls = useCallback(
+        (imageUrls: string[]) => { dispatch(mediaActions.setFrameUrls(imageUrls)) }, 
         [dispatch],
     );
-    const addImageUrl = useCallback(
-        (imageUrl: string) => { dispatch(mediaActions.addImageUrl(imageUrl)) }, 
+    const addFrameUrl = useCallback(
+        (imageUrl: string) => { dispatch(mediaActions.addFrameUrl(imageUrl)) }, 
         [dispatch],
     );
-    const selectImageIdx = useCallback(
-        (idx: number) => { dispatch(mediaActions.selectImageIdx(idx)) }, 
+    const selectKeyFrameIdx = useCallback(
+        (idx: number) => { dispatch(mediaActions.selectKeyFrameIdx(idx)) }, 
+        [dispatch],
+    );
+    const setRefImg = useCallback(
+        (refImg: Pick<MediaState, 'refImgUrl' | 'refImgFile'>) => { dispatch(mediaActions.setRefImg(refImg)) }, 
+        [dispatch],
+    );
+    const setMaskImg = useCallback(
+        (maskImg: Pick<MediaState, 'maskImgUrl' | 'maskImgFile'>) => { dispatch(mediaActions.setMaskImg(maskImg)) }, 
         [dispatch],
     );
 
     return {
         videoUrl,
-        imageUrls,
-        selectedImageIdx,
+        videoFile,
+        frameUrls,
+        keyFrameIdx,
+        refImgUrl,
+        refImgFile,
+        maskImgUrl,
+        maskImgFile,
 
-        setVideoUrl,
-        setImageUrls,
-        addImageUrl,
-        selectImageIdx,
+        setVideo,
+        setFrameUrls,
+        addFrameUrl,
+        selectKeyFrameIdx,
+        setRefImg,
+        setMaskImg,
     }
 }

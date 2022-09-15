@@ -3,7 +3,7 @@ import React from 'react'
 
 function ImageBackgroundLayer() {
 
-    const {selectedImageIdx, imageUrls} = useMedia();
+    const {keyFrameIdx, frameUrls} = useMedia();
 
     return (
         <div
@@ -14,7 +14,7 @@ function ImageBackgroundLayer() {
             `}
             style={{
                 backgroundImage: `
-                    url(${selectedImageIdx === -1 ? '' : imageUrls[selectedImageIdx]})
+                    url(${keyFrameIdx === -1 ? '' : frameUrls[keyFrameIdx]})
                 `,
             }}
         />

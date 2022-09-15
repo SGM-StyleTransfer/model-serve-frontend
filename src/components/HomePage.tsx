@@ -1,9 +1,65 @@
 import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { PageWrapper } from './commons';
 import InputWrapper from './InputWrapper';
+import { API_UPLOAD_FILE_URL } from '@constants';
+import { useMedia } from '@hooks/useMedia';
 
 function HomePage() {
+
+    const { 
+        videoFile,
+        frameUrls,
+        keyFrameIdx,
+        refImgFile,
+        maskImgFile 
+    } = useMedia();
+
+    const uploadFile = async () => {
+        const keyFrameImage = await fetch(frameUrls[keyFrameIdx]).then(
+            r => r.blob()
+        );
+
+        console.log(keyFrameImage)
+
+        const formdata = new FormData();
+
+        if (videoFile && keyFrameImage && refImgFile && maskImgFile ) {
+            formdata.append('original_video', videoFile);
+            formdata.append('key_frame', keyFrameImage);
+            formdata.append('reference_img', refImgFile);
+            formdata.append('mask_img', maskImgFile);
+
+            console.log(formdata)
+
+            try {
+                await axios({
+                    method: 'post',
+                    url: API_UPLOAD_FILE_URL,
+                    data: formdata,
+                    headers: {"Content-Type": 'multipart/form-data'},
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        
+
+        // console.log(API_UPLOAD_FILE_URL)
+        // console.log(videoFile)
+        // console.log(keyFrameImage)
+        // console.log(refImgFile)
+        // console.log(maskImgFile)
+            
+        // await axios.post(API_UPLOAD_FILE_URL, {
+        //     original_video: videoFile,
+        //     key_frame: keyFrameImage,
+        //     reference_img: refImgFile,
+        //     mask_img: maskImgFile,
+        // })
+    }
 
     return (
         <PageWrapper >
@@ -14,6 +70,9 @@ function HomePage() {
             <Link className='text-2xl mb-4' to='/media-pipe' > Go to MediaPipe </Link>
 
             <InputWrapper />
+
+            {/* Upload Mideo Files Button */}
+            <button className='mt-4 py-4 px-10 bg-slate-200' onClick={uploadFile} >Upload Files</button>
 
             {/* Output Container */}
             <div className='w-full max-w-3xl'>
