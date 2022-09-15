@@ -17,6 +17,7 @@
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "@types/react-redux": "^7.1.24",
+    "axios": "^0.27.2",
     "file-saver": "^2.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -58,5 +59,6 @@
     "craco-alias": "^3.0.1",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4"
-  }
+  },
+  "proxy": "http://127.0.0.1:8000/"
 }
