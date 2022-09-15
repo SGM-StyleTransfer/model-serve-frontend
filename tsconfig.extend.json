@@ -7,6 +7,7 @@
             "@modules/*": ["./modules/*"],
             "@hooks/*": ["./hooks/*"],
 
+            "@constants": ["./utils/constants.ts"],
             "@images": ["./images/index.ts"]
         }
     }
