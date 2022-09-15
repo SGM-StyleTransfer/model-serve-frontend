@@ -1,19 +1,20 @@
 import React from 'react';
+import { useMedia } from '@hooks/useMedia';
 
-type Props = {
-    imageURL: string;
-    setImageURL: React.Dispatch<React.SetStateAction<string>>;
-}
+function ImageUploadButton() {
 
-function ImageUploadButton({imageURL, setImageURL}: Props) {
+    const { refImgUrl, setRefImg } = useMedia();
 
     const handleFileChange = (event: any) => {
         const file = event.target.files[0];
         const url = URL.createObjectURL(file);
-        if (imageURL) {
-            URL.revokeObjectURL(imageURL)
+        if (refImgUrl) {
+            URL.revokeObjectURL(refImgUrl)
         }
-        setImageURL(url);
+        setRefImg({
+            refImgUrl: url,
+            refImgFile: file,
+        })
     };
 
     return (

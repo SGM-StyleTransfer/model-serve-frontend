@@ -1,12 +1,14 @@
-import React, { useRef, useState } from 'react';
-import { saveAs } from 'file-saver';
+import React, { useRef } from 'react';
 import CanvasLayer from './CanvasLayer';
 import ImageBackgroundLayer from './ImageBackgrondLayer';
+import { useMedia } from '@hooks/useMedia';
 
 
 function CanvasTest () {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const fakeCanvasRef = useRef<HTMLCanvasElement>(null);
+
+    const { setMaskImg } = useMedia();
 
     const clearCanvas = () => {
         if (!canvasRef.current) {
@@ -17,7 +19,7 @@ function CanvasTest () {
         canvas.getContext('2d')!!.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    const saveImage = () => {
+    const saveImage = async () => {
         if (!canvasRef.current || !fakeCanvasRef.current ) {
             return;
         }
@@ -51,7 +53,11 @@ function CanvasTest () {
             fakeContext.putImageData(imageData, 0, 0);
             const maskURL = fakeCanvas.toDataURL('image/png');
             if (maskURL) {
-                saveAs(maskURL, 'mask.jpg');
+                const maskFile = await fetch(maskURL).then(r => r.blob());
+                setMaskImg({
+                    maskImgUrl: maskURL,
+                    maskImgFile: maskFile,
+                })
             }
         }
     }

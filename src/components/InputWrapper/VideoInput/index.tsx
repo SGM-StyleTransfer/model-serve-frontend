@@ -1,6 +1,7 @@
 import React, { 
     ChangeEventHandler, 
     MouseEventHandler, 
+    useCallback, 
     useEffect, 
     useRef,
 } from "react";
@@ -20,12 +21,12 @@ function VideoInput() {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const {
-        videoUrl, setVideoUrl,
-        imageUrls, setImageUrls, addImageUrl,
-        selectImageIdx,
+        videoUrl, setVideo,
+        frameUrls, setFrameUrls, addFrameUrl,
+        selectKeyFrameIdx,
     } = useMedia();
 
-    let seeking: boolean = false;
+    // let seeking: boolean = false;
     const containerSize: BoxSize = {w: 400, h: 300}
 
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -35,10 +36,10 @@ function VideoInput() {
         const url = URL.createObjectURL(file);
         if (videoUrl) {
             URL.revokeObjectURL(videoUrl)
-            setImageUrls([]);
+            setFrameUrls([]);
         }
-        setVideoUrl(url);
-        selectImageIdx(0);
+        setVideo({videoUrl: url, videoFile: file});
+        selectKeyFrameIdx(0);
     };
 
     const handleChoose: 
@@ -48,13 +49,12 @@ function VideoInput() {
     };
 
     const handleDelete: MouseEventHandler<HTMLButtonElement> = (event) => {
-        setVideoUrl('');
-        setImageUrls([]);
-        selectImageIdx(-1);
+        setVideo({videoUrl: '', videoFile: null});
+        setFrameUrls([]);
+        selectKeyFrameIdx(-1);
     }
 
-    const captureFrames = async () => {
-
+    const captureFrames = useCallback(async () => {
         const video = videoRef.current;
         const canvas = canvasRef.current;
 
@@ -79,7 +79,7 @@ function VideoInput() {
                 while (cur_time < totalSecond) {
                     // 1. video의 재생시간을 interval 만큼 이동한 포인트로 이동
                     video.currentTime = cur_time;
-                    seeking = true;
+                    // seeking = true;
                     
                     // 2. video 컴포넌트가 실제로 currentTime으로 이동하는 시간을 기다리기 
                     // (seeked event 기다리기)
@@ -89,7 +89,7 @@ function VideoInput() {
                     // 3. 이동한 포인트의 비디오 프레임을 canvas에 그리기
                     ctx.drawImage( video, 0, 0, canvas.width, canvas.height );
                     let base64ImageData = canvas.toDataURL()
-                    addImageUrl(base64ImageData);
+                    addFrameUrl(base64ImageData);
 
                     // 4. 다음 interval의 재생시간을 변수에 저장
                     cur_time += interval;
@@ -98,18 +98,18 @@ function VideoInput() {
             // video를 처음 포인트로 이동
             video.currentTime = 0;
         }
-    };
+    }, [addFrameUrl, containerSize.h, containerSize.w])
 
-    const completeSeek = (): void => { seeking = false; }
+    // const completeSeek = (): void => { seeking = false; }
     // const isSeeking = (): boolean => seeking === true;
 
     useEffect(() => {
         const video = videoRef.current;
         if (video) {
             video.addEventListener('loadeddata', captureFrames);
-            video.addEventListener('seeked', completeSeek);
+            // video.addEventListener('seeked', completeSeek);
         }
-    }, [videoRef])
+    }, [videoRef, captureFrames])
 
     return (
         <div>
@@ -132,7 +132,7 @@ function VideoInput() {
                     controls
                     src={videoUrl}
                 /> 
-                <FrameList imageUrls={imageUrls} />
+                <FrameList frameUrls={frameUrls} />
             </div>
             {!videoUrl &&
                 // Video가 없을 때, 비디오가 선택되지 않았음을 알려주는 박스

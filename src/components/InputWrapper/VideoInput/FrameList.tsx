@@ -2,24 +2,24 @@ import React from 'react';
 import { useMedia } from '@hooks/useMedia';
 
 type Props = {
-    imageUrls: string[]
+    frameUrls: string[]
 }
 
-function FrameList ({ imageUrls }: Props) {
-    const { selectImageIdx } = useMedia();
+function FrameList ({ frameUrls }: Props) {
+    const { selectKeyFrameIdx } = useMedia();
 
     return (
         <div className='flex' >
             {
-                imageUrls.map((imageUrl, idx) => {
+                frameUrls.map((frameUrl, idx) => {
                     return (
                         <div 
                             key={idx}
                             className='bg-center bg-cover w-10 h-10 mx-1 cursor-pointer'
                             style={{
-                                backgroundImage: `url(${imageUrl})`
+                                backgroundImage: `url(${frameUrl})`
                             }}
-                            onClick={() => {selectImageIdx(idx)}}
+                            onClick={() => {selectKeyFrameIdx(idx)}}
                         />
                     )
                 })
