@@ -21,8 +21,6 @@ function HomePage() {
             r => r.blob()
         );
 
-        console.log(keyFrameImage)
-
         const formdata = new FormData();
 
         if (videoFile && keyFrameImage && refImgFile && maskImgFile ) {
@@ -30,8 +28,6 @@ function HomePage() {
             formdata.append('key_frame', keyFrameImage);
             formdata.append('reference_img', refImgFile);
             formdata.append('mask_img', maskImgFile);
-
-            console.log(formdata)
 
             try {
                 await axios({
@@ -44,21 +40,6 @@ function HomePage() {
                 console.log(error)
             }
         }
-
-        
-
-        // console.log(API_UPLOAD_FILE_URL)
-        // console.log(videoFile)
-        // console.log(keyFrameImage)
-        // console.log(refImgFile)
-        // console.log(maskImgFile)
-            
-        // await axios.post(API_UPLOAD_FILE_URL, {
-        //     original_video: videoFile,
-        //     key_frame: keyFrameImage,
-        //     reference_img: refImgFile,
-        //     mask_img: maskImgFile,
-        // })
     }
 
     return (
