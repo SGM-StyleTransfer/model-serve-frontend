@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { PageWrapper } from './commons';
@@ -16,6 +16,8 @@ function HomePage() {
         maskImgFile 
     } = useMedia();
 
+    const [outputVideoURL, setOutputVideoURL] = useState<string>();
+
     const uploadFile = async () => {
         const keyFrameImage = await fetch(frameUrls[keyFrameIdx]).then(
             r => r.blob()
@@ -30,12 +32,15 @@ function HomePage() {
             formdata.append('mask_img', maskImgFile);
 
             try {
-                await axios({
+                const res = await axios({
                     method: 'post',
                     url: API_UPLOAD_FILE_URL,
                     data: formdata,
                     headers: {"Content-Type": 'multipart/form-data'},
+                    responseType: 'blob'
                 })
+                const url = URL.createObjectURL(res.data)
+                setOutputVideoURL(url);
             } catch (error) {
                 console.log(error)
             }
@@ -65,6 +70,9 @@ function HomePage() {
                 <div className='w-full h-0 relative overflow-hidden' style={{paddingBottom: '60%'}}>
                     {/* Video Content */}
                     <div className='absolute top-0 left-0 w-full h-full bg-slate-100'>
+                        { outputVideoURL &&
+                            <video src={outputVideoURL} controls />
+                        }
                     </div>
                 </div>
             </div>
