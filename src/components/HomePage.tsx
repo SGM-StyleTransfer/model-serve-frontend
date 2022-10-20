@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { PageWrapper } from './commons';
 import InputWrapper from './InputWrapper';
 import { API_UPLOAD_FILE_URL } from '@constants';
 import { useMedia } from '@hooks/useMedia';
+import OutputWrapper from './OutputWrapper';
 
 function HomePage() {
 
@@ -48,35 +49,30 @@ function HomePage() {
     }
 
     return (
-        <PageWrapper >
-        
-            {/* Title */}
-            <h1 className='text-5xl mt-4 mb-10' >요르댕 ❕</h1>
-
-            <Link className='text-2xl mb-4' to='/media-pipe' > Go to MediaPipe </Link>
-
-            <InputWrapper />
-
-            {/* Upload Mideo Files Button */}
-            <button className='mt-4 py-4 px-10 bg-slate-200' onClick={uploadFile} >Upload Files</button>
-
-            {/* Output Container */}
-            <div className='w-full max-w-3xl'>
-                <h3 className='text-4xl my-4'>
-                    Output Video
-                </h3>
-
-                {/* Wrapper */}
-                <div className='w-full h-0 relative overflow-hidden' style={{paddingBottom: '60%'}}>
-                    {/* Video Content */}
-                    <div className='absolute top-0 left-0 w-full h-full bg-slate-100'>
-                        { outputVideoURL &&
-                            <video src={outputVideoURL} controls />
-                        }
-                    </div>
-                </div>
+        <div className='w-full min-h-screen bg-slate-50' >
+            {/* Header */}
+            <div className='bg-white h-16 p-8 w-full flex items-center cursor-default' >
+                <div className='mr-6 font-bold text-xl text-orange-400' >요 르 댕</div>
+                <div> Video Face Style Transfer </div>
             </div>
-        </PageWrapper>
+            <PageWrapper >
+
+                {/* Title */}
+                {/* <h1 className='text-5xl mt-4 mb-10' >요르댕 ❕</h1> */}
+                {/* <Link className='text-2xl mb-4' to='/media-pipe' > Go to MediaPipe </Link> */}
+
+                {/* <Route path='/' element={<InputWrapper />} /> */}
+                {/* <Route path='/output-video' element={<InputWrapper />} /> */}
+
+                <Router>
+                    <Routes>
+                        <Route path='/' element={ <InputWrapper /> } />
+                        <Route path='/output-video' element={ <OutputWrapper /> } />
+                    </Routes>
+                </Router>
+                
+            </PageWrapper>
+        </div>
     )
 }
 
