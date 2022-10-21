@@ -5,12 +5,54 @@ import { RightArrow, Plus } from '@images'
 import ReferImage from './ReferImage';
 import VideoInput from './VideoInput';
 import { useNavigate } from 'react-router-dom';
+import { useMedia } from '@hooks/useMedia';
+import axios from 'axios';
+import { API_UPLOAD_FILE_URL } from '@constants';
 
 function InputWrapper() {
     const navigate = useNavigate();
 
-    const uploadFile= () => {
-        navigate('/output-video')
+    const { 
+        videoFile,
+        frameUrls,
+        keyFrameIdx,
+        refImgFile,
+        maskImgFile,
+        setOutputVideoUrl,
+    } = useMedia();
+
+    // const uploadFile= () => {
+    //     navigate('/output-video')
+    // }
+
+    const uploadFile = async () => {
+        const keyFrameImage = await fetch(frameUrls[keyFrameIdx]).then(
+            r => r.blob()
+        );
+
+        const formdata = new FormData();
+
+        if (videoFile && keyFrameImage && refImgFile && maskImgFile ) {
+            formdata.append('original_video', videoFile);
+            formdata.append('key_frame', keyFrameImage);
+            formdata.append('reference_img', refImgFile);
+            formdata.append('mask_img', maskImgFile);
+
+            try {
+                const res = await axios({
+                    method: 'post',
+                    url: API_UPLOAD_FILE_URL,
+                    data: formdata,
+                    headers: {"Content-Type": 'multipart/form-data'},
+                    responseType: 'blob'
+                })
+                const url = URL.createObjectURL(res.data)
+                setOutputVideoUrl({ outputVideoURL: url });
+                navigate('/output-video')
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
 
     return (

@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useMedia } from '@hooks/useMedia';
+import { useNavigate } from 'react-router-dom';
 import { KeyButton, PageDescription, PageTitle } from './commons';
 
 function OutputWrapper() {
     const navigate = useNavigate();
+    const { outputVideoURL } = useMedia();
 
     const returnHome = () => {
         navigate('/');
@@ -21,9 +23,9 @@ function OutputWrapper() {
             <div className='w-full h-0 relative overflow-hidden mb-6' style={{paddingBottom: '60%'}}>
                 {/* Video Content */}
                 <div className='absolute top-0 left-0 w-full h-full bg-slate-200'>
-                    {/* { outputVideoURL &&
+                    { outputVideoURL &&
                         <video src={outputVideoURL} controls />
-                    } */}
+                    }
                 </div>
             </div>
 
