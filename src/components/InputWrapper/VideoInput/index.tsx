@@ -58,6 +58,10 @@ function VideoInput() {
         const video = videoRef.current;
         const canvas = canvasRef.current;
 
+        /** 이미 이미지 리스트가 있을 때, 추가되던 오류 해결 
+         * (실행될 때, 이전의 리스트 초기화) */
+        setFrameUrls([]);
+
         if (canvas && video) {
             const ctx = canvas.getContext("2d");
 
