@@ -10,6 +10,7 @@ export type MediaState = {
     refImgFile:     File | Blob | null; // Reference image file
     maskImgUrl:     string;             // Mask Image Url
     maskImgFile:    File | Blob | null; // Mask Image File
+    outputVideoURL: string;
 };
 
 /**
@@ -25,6 +26,7 @@ const initialState: MediaState = {
     refImgFile: null,
     maskImgUrl: '',
     maskImgFile: null,
+    outputVideoURL: '',
 };
 
 /**
@@ -91,6 +93,13 @@ export const media = createSlice({
                 ...state,
                 maskImgUrl: action.payload.maskImgUrl,
                 maskImgFile: action.payload.maskImgFile,
+            }
+        },
+
+        setOutputVideoUrl: (state, action: PayloadAction<Pick<MediaState, 'outputVideoURL'>> ) => {
+            return {
+                ...state,
+                outputVideoURL: action.payload.outputVideoURL
             }
         }
     },

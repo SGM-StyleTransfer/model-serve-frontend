@@ -13,6 +13,7 @@ export function useMedia() {
     const refImgFile = useSelector((state: RootState) => state.media.refImgFile);
     const maskImgUrl = useSelector((state: RootState) => state.media.maskImgUrl);
     const maskImgFile = useSelector((state: RootState) => state.media.maskImgFile);
+    const outputVideoURL = useSelector((state: RootState) => state.media.outputVideoURL);
 
     const dispatch = useDispatch();
     const setVideo = useCallback(
@@ -39,6 +40,10 @@ export function useMedia() {
         (maskImg: Pick<MediaState, 'maskImgUrl' | 'maskImgFile'>) => { dispatch(mediaActions.setMaskImg(maskImg)) }, 
         [dispatch],
     );
+    const setOutputVideoUrl = useCallback(
+        (outputVideoURL: Pick<MediaState, 'outputVideoURL'>) => {dispatch(mediaActions.setOutputVideoUrl(outputVideoURL))},
+        [dispatch],
+    )
 
     return {
         videoUrl,
@@ -49,6 +54,7 @@ export function useMedia() {
         refImgFile,
         maskImgUrl,
         maskImgFile,
+        outputVideoURL,
 
         setVideo,
         setFrameUrls,
@@ -56,5 +62,6 @@ export function useMedia() {
         selectKeyFrameIdx,
         setRefImg,
         setMaskImg,
+        setOutputVideoUrl,
     }
 }
