@@ -21,10 +21,6 @@ function InputWrapper() {
         setOutputVideoUrl,
     } = useMedia();
 
-    // const uploadFile= () => {
-    //     navigate('/output-video')
-    // }
-
     const uploadFile = async () => {
         const keyFrameImage = await fetch(frameUrls[keyFrameIdx]).then(
             r => r.blob()
@@ -63,7 +59,7 @@ function InputWrapper() {
                 스타일을 가져올 사진까지 업로드 한 뒤, 하단의 <span className='text-orange-500' >SUBMIT</span> 버튼을 클릭하세요.
             </PageDescription>
 
-            <div className='h-96 flex flex-row flex-nowrap justify-between items-center mb-8'>
+            <div className='flex flex-row flex-nowrap justify-between items-center mb-8'>
                 {/* Video Uploader */}
                 <InputContainer >
                     <InputTitle> Video Uploader </InputTitle>

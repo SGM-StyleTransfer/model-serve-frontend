@@ -1,3 +1,4 @@
+import { SelectBox } from '@components/commons';
 import { useMedia } from '@hooks/useMedia';
 import React, { ChangeEventHandler, MouseEventHandler, useRef } from 'react';
 
@@ -48,11 +49,9 @@ function ReferImage() {
                 /> :
                 
                 // No Image
-                <div
-                    onClick={handleChoose} 
-                    className='w-64 h-64 mb-4 bg-slate-50 flex items-center justify-center cursor-pointer' >
+                <SelectBox onClick={handleChoose} >
                     Please Upload an Image
-                </div>
+                </SelectBox>
             }
 
             <div className='flex justify-around' >

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import FrameList from "./FrameList";
 import { useMedia } from "@hooks/useMedia";
+import { SelectBox } from "@components/commons";
 
 type BoxSize = {
     w: number;
@@ -116,7 +117,7 @@ function VideoInput() {
     }, [videoRef, captureFrames])
 
     return (
-        <div>
+        <>
             <input
                 ref={inputRef}
                 className="hidden"
@@ -140,12 +141,9 @@ function VideoInput() {
             </div>
             {!videoUrl &&
                 // Video가 없을 때, 비디오가 선택되지 않았음을 알려주는 박스
-                <div 
-                    onClick={handleChoose}
-                    className="w-64 h-64 bg-slate-50 flex items-center justify-center mb-4 cursor-pointer"
-                >
+                <SelectBox onClick={handleChoose} >
                     Video Not Selected
-                </div>
+                </SelectBox>
             }
 
             {/* Button Container */}
@@ -159,7 +157,7 @@ function VideoInput() {
                 ref={canvasRef}
                 className="hidden"
             ></canvas>
-        </div>
+        </>
     );
 }
 

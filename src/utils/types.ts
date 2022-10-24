@@ -6,5 +6,5 @@ export type StyledProps = PropsWithChildren & {
 }
 
 export type ButtonProps = PropsWithChildren & {
-    onClick?: React.MouseEventHandler<HTMLButtonElement> 
+    onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLDivElement> 
 }
