@@ -7,6 +7,8 @@ import { mediaActions, MediaState } from "@modules/media";
 export function useMedia() {
     const videoUrl = useSelector((state: RootState) => state.media.videoUrl);
     const videoFile = useSelector((state: RootState) => state.media.videoFile);
+    const videoWidth = useSelector((state: RootState) => state.media.videoWidth);
+    const videoHeight = useSelector((state: RootState) => state.media.videoHeight);
     const frameUrls = useSelector((state: RootState) => state.media.frameUrls);
     const keyFrameIdx = useSelector((state: RootState) => state.media.keyFrameIdx);
     const refImgUrl = useSelector((state: RootState) => state.media.refImgUrl);
@@ -20,6 +22,10 @@ export function useMedia() {
         (video: Pick<MediaState, 'videoUrl' | 'videoFile'> ) => { dispatch(mediaActions.setVideo(video)) }, 
         [dispatch],
     );
+    const setVideoSize = useCallback(
+        (videoSize: Pick<MediaState, 'videoHeight' | 'videoWidth'>) => { dispatch(mediaActions.setVideoSize(videoSize)) },
+        [dispatch],
+    )
     const setFrameUrls = useCallback(
         (imageUrls: string[]) => { dispatch(mediaActions.setFrameUrls(imageUrls)) }, 
         [dispatch],
@@ -48,6 +54,8 @@ export function useMedia() {
     return {
         videoUrl,
         videoFile,
+        videoHeight,
+        videoWidth,
         frameUrls,
         keyFrameIdx,
         refImgUrl,
@@ -57,6 +65,7 @@ export function useMedia() {
         outputVideoURL,
 
         setVideo,
+        setVideoSize,
         setFrameUrls,
         addFrameUrl,
         selectKeyFrameIdx,

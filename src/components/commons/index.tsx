@@ -5,7 +5,7 @@ export function PageWrapper({children, className}: StyledProps ) {
     return (
         <div className={` 
             ${className} 
-            max-w-screen-xl mx-auto  
+            max-w-screen-xl mx-auto box-border
             px-8 py-12 text-center flex flex-col items-center
         `} >
             {children}
@@ -15,7 +15,7 @@ export function PageWrapper({children, className}: StyledProps ) {
 
 export function InputContainer({children}: PropsWithChildren) {
     return (
-        <div className='ring-1 ring-slate-900 h-full p-4 mx-4 bg-white'> 
+        <div className='ring-1 ring-slate-900 p-4 py-6 mx-4 bg-white'> 
             {children}
         </div>
     )
@@ -23,7 +23,7 @@ export function InputContainer({children}: PropsWithChildren) {
 
 export function InputTitle({children}: PropsWithChildren) {
     return (
-        <h1 className='text-3xl whitespace-nowrap mb-4' > 
+        <h1 className='text-3xl text-slate-600 whitespace-nowrap mt-2 mb-4 cursor-default' > 
             {children} 
         </h1>
     )
@@ -54,5 +54,16 @@ export function KeyButton({children, onClick}: ButtonProps) {
             onClick={onClick} >
                 {children}
         </button>
+    )
+}
+
+export function SelectBox({children, onClick}: ButtonProps) {
+    return (
+        <div 
+            onClick={onClick}
+            className="w-64 h-64 bg-slate-50 flex items-center justify-center mb-4 cursor-pointer text-gray-400"
+        >
+            {children}
+        </div>
     )
 }
