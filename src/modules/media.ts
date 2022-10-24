@@ -3,6 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type MediaState = {
     videoUrl:       string;             // Video Blob url
     videoFile:      File | Blob | null; // Video File
+    videoWidth:     number;             // Video Width 
+    videoHeight:    number;             // Video Height
     frameUrls:      string[];           // Video frame image urls
     keyFrameIdx:    number;             // Video Key Frame Index
     keyFrameFile:   File | Blob | null; // Key Frame File
@@ -19,6 +21,8 @@ export type MediaState = {
 const initialState: MediaState = {
     videoUrl: '',
     videoFile: null,
+    videoWidth: 0,
+    videoHeight: 0,
     frameUrls: [],
     keyFrameIdx: -1,
     keyFrameFile: null,
@@ -45,6 +49,14 @@ export const media = createSlice({
                 videoUrl: action.payload.videoUrl,
                 videoFile: action.payload.videoFile,
             };
+        },
+
+        setVideoSize: (state, action: PayloadAction< Pick<MediaState, 'videoWidth' | 'videoHeight'> > ) => {
+            return {
+                ...state,
+                videoWidth: action.payload.videoWidth,
+                videoHeight: action.payload.videoHeight,
+            }
         },
 
         setFrameUrls: (state, action: PayloadAction<string[]>) => {

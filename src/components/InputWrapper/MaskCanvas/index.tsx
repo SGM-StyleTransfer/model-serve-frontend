@@ -4,11 +4,14 @@ import ImageBackgroundLayer from './ImageBackgrondLayer';
 import { useMedia } from '@hooks/useMedia';
 
 
-function CanvasTest () {
+function MaskCanvas () {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const fakeCanvasRef = useRef<HTMLCanvasElement>(null);
+    const hiddenCanvasRef = useRef<HTMLCanvasElement>(null);
 
-    const { setMaskImg } = useMedia();
+    const { 
+        videoUrl, videoHeight, videoWidth, 
+        setMaskImg,
+    } = useMedia();
 
     const clearCanvas = () => {
         if (!canvasRef.current) {
@@ -20,18 +23,23 @@ function CanvasTest () {
     }
 
     const saveImage = async () => {
-        if (!canvasRef.current || !fakeCanvasRef.current ) {
+        if (!canvasRef.current || !hiddenCanvasRef.current ) {
             return;
         }
         const canvas: HTMLCanvasElement = canvasRef.current;
-        const fakeCanvas: HTMLCanvasElement = fakeCanvasRef.current;
+        const hiddenCanvas: HTMLCanvasElement = hiddenCanvasRef.current;
 
         const context = canvas.getContext("2d");
-        const fakeContext = fakeCanvas.getContext('2d');
+        const hiddenContext = hiddenCanvas.getContext('2d');
 
-        if (context && fakeContext) {
+        if (context && hiddenContext) {
             
-            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            hiddenCanvas.height = videoHeight;
+            hiddenCanvas.width = videoWidth;
+
+            hiddenContext.drawImage(canvas, 0, 0, videoWidth, videoHeight);
+
+            const imageData = hiddenContext.getImageData(0, 0, videoWidth, videoHeight);
             const data = imageData.data;
             
             /* 마스크 이미지 GrayScale 처리 */
@@ -50,8 +58,8 @@ function CanvasTest () {
                 }
             }
 
-            fakeContext.putImageData(imageData, 0, 0);
-            const maskURL = fakeCanvas.toDataURL('image/png');
+            hiddenContext.putImageData(imageData, 0, 0);
+            const maskURL = hiddenCanvas.toDataURL('image/png');
             if (maskURL) {
                 const maskFile = await fetch(maskURL).then(r => r.blob());
                 setMaskImg({
@@ -65,15 +73,21 @@ function CanvasTest () {
     return (
         <div className='flex flex-col' >
 
-            <div className='relative mb-4' style={{width: 256, height: 256}} >
+            <div 
+                className='relative mb-4 flex items-center justify-center' 
+                style={{width: 256, height: 256}} 
+            >
                 <ImageBackgroundLayer />
-                <CanvasLayer canvasRef={canvasRef} />
-                <canvas 
-                    className='absolute -z-10 top-0 left-0'
-                    ref={fakeCanvasRef} 
-                    width={256} 
-                    height={256} 
-                ></canvas>
+                { videoUrl &&
+                    <>
+                        <CanvasLayer canvasRef={canvasRef} />
+                        {/* Hidden Canvas for Render Mask Image */}
+                        <canvas 
+                            className='absolute -z-10 top-0 left-0 hidden'
+                            ref={hiddenCanvasRef}
+                        ></canvas>
+                    </>
+                }
             </div>
 
             <div className='flex justify-around' >
@@ -85,4 +99,4 @@ function CanvasTest () {
 }
 
 
-export default CanvasTest;
+export default MaskCanvas;

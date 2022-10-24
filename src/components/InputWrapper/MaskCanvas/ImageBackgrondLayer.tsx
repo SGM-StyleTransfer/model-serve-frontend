@@ -1,5 +1,5 @@
-import { useMedia } from '@hooks/useMedia';
 import React from 'react'
+import { useMedia } from '@hooks/useMedia';
 
 function ImageBackgroundLayer() {
 

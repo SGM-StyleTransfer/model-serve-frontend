@@ -1,3 +1,4 @@
+import { useMedia } from '@hooks/useMedia';
 import React, {useCallback, useEffect, useState} from 'react';
 
 type Props = {
@@ -12,6 +13,28 @@ type Coordinate = {
 function Canvas({canvasRef}: Props) {
     const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(undefined);
     const [isPainting, setIsPainting] = useState(false);
+    const { videoHeight, videoWidth } = useMedia();
+
+    useEffect(() => {
+        /**
+         * Set the Canvas Element size
+         */
+        const videoRatio = videoHeight / videoWidth
+        const canvas = canvasRef.current;
+        if (canvas) {
+            canvas.width = 256;
+            canvas.height = 256;
+
+            if (videoRatio < 1) {   
+                /** H < W */
+                canvas.height = Math.ceil(256 * videoRatio) 
+            } else {
+                /** W < H */
+                canvas.width = Math.ceil(256 / videoRatio)
+            }
+        }
+    }, [videoHeight, videoWidth, canvasRef])
+
 
     const getCoordinates = useCallback((event: MouseEvent): Coordinate | undefined => {
         if (!canvasRef.current) {
@@ -34,7 +57,6 @@ function Canvas({canvasRef}: Props) {
         if (context) {
 
             context.strokeStyle = 'rgb(250, 234, 72)';
-            // context.strokeStyle = 'rgb(0, 0, 0)';
             context.lineJoin = 'round';
             context.lineWidth = 24;
 
@@ -101,8 +123,6 @@ function Canvas({canvasRef}: Props) {
         <canvas 
             ref={canvasRef}
             className='z-50 opacity-50 hover:cursor-pointer'
-            width={256}
-            height={256}
         ></canvas>
     )
 }

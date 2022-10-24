@@ -9,10 +9,6 @@ import FrameList from "./FrameList";
 import { useMedia } from "@hooks/useMedia";
 import { SelectBox } from "@components/commons";
 
-type BoxSize = {
-    w: number;
-    h: number; 
-}
 
 const wait = (timeToDelay: number) => new Promise((resolve) => setTimeout(resolve, timeToDelay))
 
@@ -22,13 +18,12 @@ function VideoInput() {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const {
-        videoUrl, setVideo,
+        videoUrl, setVideo, setVideoSize,
         frameUrls, setFrameUrls, addFrameUrl,
         selectKeyFrameIdx,
     } = useMedia();
 
     // let seeking: boolean = false;
-    const containerSize: BoxSize = {w: 400, h: 300}
 
     const handleFileChange: ChangeEventHandler<HTMLInputElement> = (event) => {
         if (!event.target.files) { return; }
@@ -65,6 +60,10 @@ function VideoInput() {
 
         if (canvas && video) {
             const ctx = canvas.getContext("2d");
+            setVideoSize({
+                videoHeight: video.videoHeight,
+                videoWidth: video.videoWidth,
+            })
 
             // 비디오 재생시간 관련 변수 및 상수
             const totalSecond = video.duration;
@@ -73,12 +72,8 @@ function VideoInput() {
             let cur_time = 0;
             
             // 캡처한 프레임의 사이즈 설정 관련 변수 및 상수
-            const scale_w = containerSize.w / video.videoWidth ;
-            const scale_h = containerSize.h / video.videoHeight;
-            const scale_ratio = scale_w > scale_h ? scale_w : scale_h ;
-            
-            canvas.width  = video.videoWidth  * scale_ratio;
-            canvas.height = video.videoHeight * scale_ratio;
+            canvas.width  = video.videoWidth;
+            canvas.height = video.videoHeight;
             
             if (ctx) {
                 while (cur_time < totalSecond) {
@@ -89,7 +84,7 @@ function VideoInput() {
                     // 2. video 컴포넌트가 실제로 currentTime으로 이동하는 시간을 기다리기 
                     // (seeked event 기다리기)
                     // 우선은 setTimeout으로 대체했지만, 이 부분은 수정 필요
-                    await wait(50);
+                    await wait(200);
 
                     // 3. 이동한 포인트의 비디오 프레임을 canvas에 그리기
                     ctx.drawImage( video, 0, 0, canvas.width, canvas.height );
@@ -103,7 +98,7 @@ function VideoInput() {
             // video를 처음 포인트로 이동
             video.currentTime = 0;
         }
-    }, [addFrameUrl, containerSize.h, containerSize.w, setFrameUrls])
+    }, [addFrameUrl, setFrameUrls, setVideoSize])
 
     // const completeSeek = (): void => { seeking = false; }
     // const isSeeking = (): boolean => seeking === true;

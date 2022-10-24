@@ -1,5 +1,5 @@
 import React from 'react';
-import CanvasTest from './CanvasTest';
+import MaskCanvas from './MaskCanvas';
 import { InputContainer, InputTitle, KeyButton, PageDescription, PageTitle } from '@components/commons';
 import { RightArrow, Plus } from '@images'
 import ReferImage from './ReferImage';
@@ -75,8 +75,7 @@ function InputWrapper() {
                 {/* Key Frame */}
                 <InputContainer >
                     <InputTitle> Key Frame </InputTitle>
-
-                    <CanvasTest />
+                    <MaskCanvas />
                 </InputContainer>
 
                 {/* Arrow Icon */}
