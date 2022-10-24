@@ -103,7 +103,7 @@ function VideoInput() {
             // video를 처음 포인트로 이동
             video.currentTime = 0;
         }
-    }, [addFrameUrl, containerSize.h, containerSize.w])
+    }, [addFrameUrl, containerSize.h, containerSize.w, setFrameUrls])
 
     // const completeSeek = (): void => { seeking = false; }
     // const isSeeking = (): boolean => seeking === true;
