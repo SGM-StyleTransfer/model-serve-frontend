@@ -7,7 +7,7 @@ import OutputWrapper from './OutputWrapper';
 function HomePage() {
 
     return (
-        <div className='w-full min-h-screen bg-slate-50' >
+        <div className='w-full min-h-screen bg-slate-50 font-sans' >
             {/* Header */}
             <div className='bg-white h-16 p-8 w-full flex items-center cursor-default' >
                 <div className='mr-6 font-bold text-xl text-orange-400' >요 르 댕</div>
