@@ -45,21 +45,22 @@ function MaskCanvas () {
             /* 마스크 이미지 GrayScale 처리 */
             for (let i = 0; i < data.length; i += 4) {
                 if (data[i + 3] > 0) {
-                    data[i]     = 0;    // red
-                    data[i + 1] = 0;    // green
-                    data[i + 2] = 0;    // blue
-                    data[i + 3] = 255;
-                }
-                else {
                     data[i]     = 255;    // red
                     data[i + 1] = 255;    // green
                     data[i + 2] = 255;    // blue
+                    data[i + 3] = 255;
+                }
+                else {
+                    data[i]     = 0;    // red
+                    data[i + 1] = 0;    // green
+                    data[i + 2] = 0;    // blue
                     data[i + 3] = 255;
                 }
             }
 
             hiddenContext.putImageData(imageData, 0, 0);
             const maskURL = hiddenCanvas.toDataURL('image/png');
+            console.log(maskURL)
             if (maskURL) {
                 const maskFile = await fetch(maskURL).then(r => r.blob());
                 setMaskImg({
