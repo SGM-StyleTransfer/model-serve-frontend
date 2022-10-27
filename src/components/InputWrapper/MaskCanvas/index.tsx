@@ -60,7 +60,6 @@ function MaskCanvas () {
 
             hiddenContext.putImageData(imageData, 0, 0);
             const maskURL = hiddenCanvas.toDataURL('image/png');
-            console.log(maskURL)
             if (maskURL) {
                 const maskFile = await fetch(maskURL).then(r => r.blob());
                 setMaskImg({
