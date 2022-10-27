@@ -7,7 +7,7 @@ import VideoInput from './VideoInput';
 import { useNavigate } from 'react-router-dom';
 import { useMedia } from '@hooks/useMedia';
 import axios from 'axios';
-import { API_UPLOAD_FILE_URL } from '@constants';
+import { API_GET_RESULT_VIDEO_URL, API_UPLOAD_FILE_URL } from '@constants';
 
 function InputWrapper() {
     const navigate = useNavigate();
@@ -35,16 +35,28 @@ function InputWrapper() {
             formdata.append('mask_img', maskImgFile);
 
             try {
-                const res = await axios({
+                const uploadFileRes = await axios({
                     method: 'post',
                     url: API_UPLOAD_FILE_URL,
                     data: formdata,
                     headers: {"Content-Type": 'multipart/form-data'},
-                    responseType: 'blob'
                 })
-                const url = URL.createObjectURL(res.data)
-                setOutputVideoUrl({ outputVideoURL: url });
-                navigate('/output-video')
+
+                if (uploadFileRes.status === 200) {
+                    try {
+                        const getResultVideoRes = await axios({
+                            method: 'get',
+                            url: API_GET_RESULT_VIDEO_URL,
+                            responseType: 'blob',
+                        })
+                        console.log(getResultVideoRes)
+                        const url = URL.createObjectURL(getResultVideoRes.data)
+                        setOutputVideoUrl({ outputVideoURL: url });
+                        navigate('/output-video')
+                    } catch(error) {
+                        console.log(error)
+                    }
+                }
             } catch (error) {
                 console.log(error)
             }
