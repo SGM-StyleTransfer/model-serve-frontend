@@ -122,7 +122,7 @@ function Canvas({canvasRef}: Props) {
     return (
         <canvas 
             ref={canvasRef}
-            className='z-50 opacity-50 hover:cursor-pointer'
+            className='z-10 opacity-50 hover:cursor-pointer'
         ></canvas>
     )
 }

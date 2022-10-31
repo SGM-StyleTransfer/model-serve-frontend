@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MaskCanvas from './MaskCanvas';
 import { InputContainer, InputTitle, KeyButton, PageDescription, PageTitle } from '@components/commons';
 import { RightArrow, Plus } from '@images'
@@ -7,10 +7,12 @@ import VideoInput from './VideoInput';
 import { useNavigate } from 'react-router-dom';
 import { useMedia } from '@hooks/useMedia';
 import axios from 'axios';
+import { RotatingLines } from 'react-loader-spinner'
 import { API_GET_RESULT_VIDEO_URL, API_UPLOAD_FILE_URL } from '@constants';
 
 function InputWrapper() {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState<boolean>(false);
 
     const { 
         videoFile,
@@ -35,6 +37,7 @@ function InputWrapper() {
             formdata.append('mask_img', maskImgFile);
 
             try {
+                setLoading(true)
                 const uploadFileRes = await axios({
                     method: 'post',
                     url: API_UPLOAD_FILE_URL,
@@ -49,15 +52,17 @@ function InputWrapper() {
                             url: API_GET_RESULT_VIDEO_URL,
                             responseType: 'blob',
                         })
-                        console.log(getResultVideoRes)
+                        setLoading(false)
                         const url = URL.createObjectURL(getResultVideoRes.data)
                         setOutputVideoUrl({ outputVideoURL: url });
                         navigate('/output-video')
                     } catch(error) {
+                        setLoading(false)
                         console.log(error)
                     }
                 }
             } catch (error) {
+                setLoading(false)
                 console.log(error)
             }
         }
@@ -65,6 +70,23 @@ function InputWrapper() {
 
     return (
         <div className='flex flex-col items-center' >
+            { loading &&
+                // Loading Modal 
+                <>
+                    {/* Black mask */}
+                    <div className='absolute top-0 bottom-0 right-0 left-0 bg-black opacity-40 z-20' />
+                    {/* Element */}
+                    <div className='absolute top-0 bottom-0 right-0 left-0 flex items-center justify-center z-30' >
+                        <RotatingLines  
+                            strokeColor={'#F97316'}
+                            strokeWidth="5"
+                            animationDuration="1"
+                            width="96"
+                            visible={true}
+                        />
+                    </div>
+                </>
+             }
             <PageTitle> FILE&nbsp; UPLOAD  </PageTitle>
             <PageDescription>
                 비디오를 업로드한 뒤, 원하는 프레임을 선택하여 마스크를 색칠하세요.<br/>
