@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { PageWrapper } from './commons';
 import InputWrapper from './InputWrapper';
-import MediaPipe from './MediaPipe';
+import Webcam from './Webcam';
 import OutputWrapper from './OutputWrapper';
 
 function HomePage() {
@@ -19,7 +19,7 @@ function HomePage() {
                     <Routes>
                         <Route path='/' element={ <InputWrapper /> } />
                         <Route path='/output-video' element={ <OutputWrapper /> } />
-                        <Route path='/mediapipe' element={ <MediaPipe /> } />
+                        <Route path='/webcam' element={ <Webcam /> } />
                     </Routes>
                 </Router>
             </PageWrapper>

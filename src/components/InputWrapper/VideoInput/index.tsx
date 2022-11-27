@@ -8,6 +8,7 @@ import React, {
 import FrameList from "./FrameList";
 import { useMedia } from "@hooks/useMedia";
 import { SelectBox } from "@components/commons";
+import { useNavigate } from "react-router-dom";
 
 
 const wait = (timeToDelay: number) => new Promise((resolve) => setTimeout(resolve, timeToDelay))
@@ -22,6 +23,7 @@ function VideoInput() {
         frameUrls, setFrameUrls, addFrameUrl,
         selectKeyFrameIdx,
     } = useMedia();
+    const navigate = useNavigate();
 
     // let seeking: boolean = false;
 
@@ -66,11 +68,15 @@ function VideoInput() {
             })
 
             // 비디오 재생시간 관련 변수 및 상수
+            while(video.duration === Infinity) {
+                await new Promise(r => setTimeout(r, 250));
+                video.currentTime = 10000000*Math.random();
+            }
             const totalSecond = video.duration;
             const numOfFrames = 5
             const interval = totalSecond / numOfFrames;
             let cur_time = 0;
-            
+
             // 캡처한 프레임의 사이즈 설정 관련 변수 및 상수
             canvas.width  = video.videoWidth;
             canvas.height = video.videoHeight;
@@ -111,6 +117,10 @@ function VideoInput() {
         }
     }, [videoRef, captureFrames])
 
+    const handleWebcam = () => {
+        navigate('/webcam')
+    }
+
     return (
         <>
             <input
@@ -144,7 +154,8 @@ function VideoInput() {
             {/* Button Container */}
             <div className="flex justify-around" >
                 <button onClick={handleChoose}>Choose</button>
-                <button onClick={handleDelete} >Delete</button>
+                <button onClick={handleDelete}>Delete</button>
+                <button onClick={handleWebcam}>Webcam</button>
                 {/* <button onClick={captureFrames}>capture</button> */}
             </div>
 
